@@ -1,6 +1,6 @@
 {
   "name": "elm-todo-rest-api",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "elm todomvc with a stupid but persistent json rest api",
   "main": "api.js",
   "scripts": {
@@ -34,7 +34,8 @@
   "homepage": "https://github.com/andrewsuzuki/elm-todomvc-with-api#readme",
   "dependencies": {
     "css-loader": "^0.23.1",
-    "elm-webpack-loader": "^3.0.3",
+    "elm-upgrade": "^0.19.6",
+    "elm-webpack-loader": "github:elm-community/elm-webpack-loader",
     "file-loader": "^0.9.0",
     "json-server": "^0.8.14",
     "lodash": "^4.13.1",

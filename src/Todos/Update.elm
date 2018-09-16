@@ -1,11 +1,12 @@
-module Todos.Update exposing (..)
+module Todos.Update exposing (update)
 
 -- we want Msg along with all of its subtypes automatically (..)
 
-import Todos.Messages exposing (Msg(..))
-import Todos.Models exposing (TodoEditView(..), Todo)
 import Todos.Commands
+import Todos.Messages exposing (Msg(..))
+import Todos.Models exposing (Todo, TodoEditView(..))
 import Utils
+
 
 
 -- handle messages relevant to model.todos
@@ -40,7 +41,7 @@ update msg ev todos =
                         Editing todo ->
                             Editing { todo | title = title }
             in
-                ( nev, todos, Cmd.none )
+            ( nev, todos, Cmd.none )
 
         -- this is matched when there is an http error
         -- it gives us an Http.Error, but we don't need it,
@@ -54,6 +55,7 @@ update msg ev todos =
             case res of
                 Result.Ok newTodos ->
                     ( ev, newTodos, Cmd.none )
+
                 Result.Err _ ->
                     ( ev, todos, Cmd.none )
 
@@ -62,6 +64,7 @@ update msg ev todos =
             case res of
                 Result.Ok todo ->
                     ( ev, Utils.mergeById todos todo, Cmd.none )
+
                 Result.Err _ ->
                     ( ev, todos, Cmd.none )
 
@@ -70,6 +73,7 @@ update msg ev todos =
             case res of
                 Result.Ok newTodo ->
                     ( ev, Utils.mergeById todos newTodo, Cmd.none )
+
                 Result.Err _ ->
                     ( ev, todos, Cmd.none )
 
@@ -78,6 +82,7 @@ update msg ev todos =
             case res of
                 Result.Ok todo ->
                     ( ev, Utils.removeById todos todo, Cmd.none )
+
                 Result.Err _ ->
                     ( ev, todos, Cmd.none )
 
@@ -100,7 +105,7 @@ update msg ev todos =
                 -- exit edit view (using None) and give elm our command
                 -- see note below in Complete
             in
-                ( None, todos, cmd )
+            ( None, todos, cmd )
 
         -- this is matched when "Done is clicked"
         Complete todo ->
@@ -119,7 +124,7 @@ update msg ev todos =
                 newTodos =
                     todos
             in
-                ( ev, newTodos, Todos.Commands.patch newTodo )
+            ( ev, newTodos, Todos.Commands.patch newTodo )
 
         -- this is matched when "Revert" is clicked
         Revert todo ->
@@ -130,7 +135,7 @@ update msg ev todos =
 
                 -- see note above in Complete
             in
-                ( ev, todos, Todos.Commands.patch newTodo )
+            ( ev, todos, Todos.Commands.patch newTodo )
 
         -- this is a generic Patch for a todo that has already been altered
         Patch todo ->
@@ -157,4 +162,4 @@ update msg ev todos =
                         -- attach a delete command to each
                         |> List.map Todos.Commands.delete
             in
-                ( ev, todos, Cmd.batch cmds )
+            ( ev, todos, Cmd.batch cmds )

@@ -4,10 +4,10 @@
 require('./index.html');
 
 // use the webpack elm loader to load elm code directly
-var Elm = require('./Main.elm');
+var elm = require('./Main.elm');
+window.elm = elm;
 
-// find the root dom node we'll mount our app in
-var mountNode = document.getElementById('main');
+elm.Elm.Main.init();
 
 // mount elm app
-var app = Elm.Main.embed(mountNode);
+// var app = elm.Elm.Main.embed(mountNode);

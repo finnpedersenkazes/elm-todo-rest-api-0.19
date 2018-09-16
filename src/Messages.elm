@@ -1,6 +1,7 @@
-module Messages exposing (..)
+module Messages exposing (Msg(..))
 
 import Todos.Messages
+
 
 
 -- this is our "root" Msg, a union type representing

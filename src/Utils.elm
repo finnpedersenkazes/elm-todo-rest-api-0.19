@@ -1,9 +1,10 @@
-module Utils exposing (..)
+module Utils exposing (RecordWithId, delete, mergeById, patchJson, postJson, removeById)
 
+import Http
 import Json.Decode
 import Json.Encode
-import Http
 import Task
+
 
 
 -- NOTE this file won't help you learn the elm architecture,
@@ -33,14 +34,15 @@ mergeById existing new =
         -- it also tracks if that replacement has been made yet (found)
         merger =
             -- this is an anonymous function
-            \candidate ( found, els ) ->
+            \candidate ( ffound, els ) ->
                 if new.id == candidate.id then
                     -- mark as found, disregard old (candidate) by conssing new
                     -- to "cons" means to add to the head of the list
                     ( True, new :: els )
+
                 else
                     -- doesn't match, so just include it as-is
-                    ( found, candidate :: els )
+                    ( ffound, candidate :: els )
 
         -- destructure the result of the reduction
         ( found, coalesced ) =
@@ -52,12 +54,13 @@ mergeById existing new =
         newListReversed =
             if found then
                 coalesced
+
             else
                 new :: coalesced
     in
-        -- since the cons operator (::) adds to the head of the list,
-        -- our original list is now in reverse. let's reverse it back to normal
-        List.reverse newListReversed
+    -- since the cons operator (::) adds to the head of the list,
+    -- our original list is now in reverse. let's reverse it back to normal
+    List.reverse newListReversed
 
 
 removeById : List (RecordWithId a) -> RecordWithId a -> List (RecordWithId a)
@@ -68,12 +71,12 @@ removeById existing target =
             \a b ->
                 a.id /= b.id
     in
-        -- since functions in elm curry, we can use partial application
-        -- to make a filterFn (filter function) that uses our target with (filterFn target)
-        -- then you might think if the filtering function as effectively
-        -- filterFn = \b -> target.id /= b.id
-        -- (a function with just one parameter now)
-        List.filter (filterFn target) existing
+    -- since functions in elm curry, we can use partial application
+    -- to make a filterFn (filter function) that uses our target with (filterFn target)
+    -- then you might think if the filtering function as effectively
+    -- filterFn = \b -> target.id /= b.id
+    -- (a function with just one parameter now)
+    List.filter (filterFn target) existing
 
 
 
@@ -86,9 +89,11 @@ removeById existing target =
 postJson : Json.Decode.Decoder value -> String -> Json.Encode.Value -> Platform.Task Http.Error value
 postJson decoder url json =
     let
-        body = Http.stringBody "application/json" (Json.Encode.encode 0 json)
+        body =
+            Http.stringBody "application/json" (Json.Encode.encode 0 json)
     in
-        Http.toTask (Http.post url body decoder)
+    Http.toTask (Http.post url body decoder)
+
 
 
 -- issue a PATCH request using a Json.Encode.Value
@@ -98,19 +103,21 @@ postJson decoder url json =
 patchJson : Json.Decode.Decoder value -> String -> Json.Encode.Value -> Platform.Task Http.Error value
 patchJson decoder url json =
     let
-        body = Http.stringBody "application/json" (Json.Encode.encode 0 json)
+        body =
+            Http.stringBody "application/json" (Json.Encode.encode 0 json)
 
-        request = Http.request
-            { method = "PATCH"
-            , headers = []
-            , url = url
-            , body = body
-            , expect = Http.expectJson decoder
-            , timeout = Maybe.Nothing
-            , withCredentials = False
-            }
+        request =
+            Http.request
+                { method = "PATCH"
+                , headers = []
+                , url = url
+                , body = body
+                , expect = Http.expectJson decoder
+                , timeout = Maybe.Nothing
+                , withCredentials = False
+                }
     in
-        Http.toTask request
+    Http.toTask request
 
 
 
@@ -128,14 +135,15 @@ delete a url =
             -- to remove itself
             Json.Decode.succeed a
 
-        request = Http.request
-            { method = "DELETE"
-            , headers = []
-            , url = url
-            , body = Http.emptyBody
-            , expect = Http.expectJson decoder
-            , timeout = Maybe.Nothing
-            , withCredentials = False
-            }
+        request =
+            Http.request
+                { method = "DELETE"
+                , headers = []
+                , url = url
+                , body = Http.emptyBody
+                , expect = Http.expectJson decoder
+                , timeout = Maybe.Nothing
+                , withCredentials = False
+                }
     in
-        Http.toTask request
+    Http.toTask request

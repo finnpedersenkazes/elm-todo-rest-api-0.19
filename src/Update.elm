@@ -1,8 +1,9 @@
-module Update exposing (..)
+module Update exposing (update)
 
+import Messages exposing (Msg(..))
 import Models exposing (Model)
-import Messages exposing (Msg(NoOp, TodosMsg))
 import Todos.Update
+
 
 
 -- this is our "root" update, which is called many times
@@ -52,7 +53,7 @@ update msg model =
                 newModel =
                     { model | todoEditView = newTodoEditView, todos = newTodos }
             in
-                -- return our updated model as well as any commands
-                -- the sub-update gave us. We need to tag those commands first
-                -- with the TodosMsg (see Messages.elm for explanation)
-                ( newModel, Cmd.map TodosMsg cmd )
+            -- return our updated model as well as any commands
+            -- the sub-update gave us. We need to tag those commands first
+            -- with the TodosMsg (see Messages.elm for explanation)
+            ( newModel, Cmd.map TodosMsg cmd )

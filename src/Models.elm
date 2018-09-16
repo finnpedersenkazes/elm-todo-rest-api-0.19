@@ -1,13 +1,14 @@
-module Models exposing (..)
+module Models exposing (Model, init)
 
 -- notice how we can import the sub-types of a union type
 -- if we wanted to just import them all, we could use (..)
 -- but i think it's usually better to be explicit about imports
 -- unless you truly need everything (like in Todos.Update)
 
-import Messages exposing (Msg(TodosMsg))
-import Todos.Models exposing (Todo, TodoEditView(None))
+import Messages exposing (Msg(..))
 import Todos.Commands
+import Todos.Models exposing (Todo, TodoEditView(..))
+
 
 
 -- this is our "root" model
@@ -26,8 +27,8 @@ type alias Model =
 -- this is supplied to Html.App.Program in Main
 
 
-init : ( Model, Cmd Msg )
-init =
+init : flags -> ( Model, Cmd Msg )
+init fs =
     let
         -- type aliases can be used as functions, with the arguments
         -- being in the same order they were declared in (above).
@@ -47,4 +48,4 @@ init =
                 -- mapping it with the "root" Messages.Msg.TodosMsg
                 [ Cmd.map TodosMsg Todos.Commands.fetchAll ]
     in
-        ( model, cmds )
+    ( model, cmds )

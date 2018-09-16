@@ -30,9 +30,9 @@ then if you're feeling confident:
 
 ## Getting Started
 
-If you haven't installed Elm 0.18 yet, do so [here](http://elm-lang.org/install).
+If you haven't installed Elm 0.19 yet, do so [here](http://elm-lang.org/install).
 
-elm-todo-rest-api 0.2.0 is compatible with **Elm 0.18**. If you're still on Elm 0.17, download elm-todo-rest-api 0.1.0 [here](https://github.com/andrewsuzuki/elm-todo-rest-api/releases/tag/0.1.0).
+elm-todo-rest-api 0.3.0 is compatible with **Elm 0.19**. If you're still on Elm 0.18, download elm-todo-rest-api 0.2.0 [here](https://github.com/andrewsuzuki/elm-todo-rest-api/releases/tag/0.2.0).
 
 First, clone this repository:
 

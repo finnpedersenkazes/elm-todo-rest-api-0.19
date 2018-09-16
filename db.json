@@ -3,7 +3,12 @@
     {
       "completed": false,
       "id": 1,
-      "title": "buy milk"
+      "title": "bbq"
+    },
+    {
+      "title": "bbq",
+      "completed": false,
+      "id": 2
     }
   ]
 }

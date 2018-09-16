@@ -1,31 +1,37 @@
-module View exposing (..)
+module View exposing (atb, pipeDivider, siteHeader, view)
 
+import Browser exposing (Document)
 import Html exposing (..)
-import Html.Attributes exposing (style, href, target)
-import Html exposing(map)
+import Html.Attributes exposing (href, style, target)
+import Messages exposing (Msg(..))
 import Models exposing (Model)
-import Messages exposing (Msg(TodosMsg))
 import Todos.Edit
 import Todos.List
+
 
 
 -- this is our "root" view. the entire appearance of our application
 -- is derived here from the app state (model)
 
 
-view : Model -> Html Msg
+view : Model -> Document Msg
 view model =
-    div []
-        [ siteHeader
-          -- render the todos edit and list sub-views using pars of the model,
-          -- then "tag" outgoing messages with TodosMsg
-        , Html.map TodosMsg <| Todos.Edit.view model.todoEditView
-        , br [] []
-        , Html.map TodosMsg <| Todos.List.view model.todos
+    { title = "bbq"
+    , body =
+        [ div []
+            [ siteHeader
+
+            -- render the todos edit and list sub-views using pars of the model,
+            -- then "tag" outgoing messages with TodosMsg
+            , Html.map TodosMsg <| Todos.Edit.view model.todoEditView
+            , br [] []
+            , Html.map TodosMsg <| Todos.List.view model.todos
+            ]
         ]
+    }
 
 
-siteHeader : Html Msg
+siteHeader : Html msg
 siteHeader =
     header []
         [ h1 [] [ text "Elm Todos" ]
@@ -44,12 +50,12 @@ siteHeader =
         ]
 
 
-pipeDivider : Html Msg
+pipeDivider : Html msg
 pipeDivider =
     text " | "
 
 
-atb : String -> String -> Html Msg
+atb : String -> String -> Html msg
 atb url title =
     a
         [ href url

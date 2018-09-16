@@ -1,10 +1,11 @@
-module Todos.Edit exposing (..)
+module Todos.Edit exposing (editingInputs, view)
 
 import Html exposing (..)
 import Html.Attributes exposing (placeholder, value)
 import Html.Events exposing (onClick, onInput)
-import Todos.Messages exposing (Msg(ShowEditView, ChangeTitle, CreateOrPatch))
+import Todos.Messages exposing (Msg(..))
 import Todos.Models exposing (Todo, TodoEditView(..))
+
 
 
 -- this module contains the todo edit view

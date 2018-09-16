@@ -1,13 +1,14 @@
-module Todos.Commands exposing (..)
+module Todos.Commands exposing (create, delete, fetchAll, patch, resourceUrl, singleUrl, todoDecoder, todoEncoder, todosDecoder)
 
 import Http
-import Task
 import Json.Decode
 import Json.Encode
 import String
-import Todos.Models exposing (Todo)
+import Task
 import Todos.Messages exposing (Msg(..))
+import Todos.Models exposing (Todo)
 import Utils
+
 
 
 -- for a better introduction to commands, tasks, and Json.Decode, see here:
@@ -25,7 +26,7 @@ resourceUrl =
 
 singleUrl : Int -> String
 singleUrl id =
-    String.join "/" [ resourceUrl, (toString id) ]
+    String.join "/" [ resourceUrl, String.fromInt id ]
 
 
 
@@ -71,8 +72,8 @@ todoEncoder title completed =
             , ( "completed", Json.Encode.bool completed )
             ]
     in
-        encodings
-            |> Json.Encode.object
+    encodings
+        |> Json.Encode.object
 
 
 
@@ -85,9 +86,10 @@ todoEncoder title completed =
 fetchAll : Cmd Msg
 fetchAll =
     let
-        request = Http.get resourceUrl todosDecoder
+        request =
+            Http.get resourceUrl todosDecoder
     in
-        Http.send FetchAllDone request
+    Http.send FetchAllDone request
 
 
 
@@ -99,11 +101,12 @@ fetchAll =
 
 create : String -> Cmd Msg
 create title =
-    let 
-      task = Utils.postJson todoDecoder resourceUrl  
-        <| todoEncoder title False
+    let
+        task =
+            Utils.postJson todoDecoder resourceUrl <|
+                todoEncoder title False
     in
-      Task.attempt CreateDone task
+    Task.attempt CreateDone task
 
 
 
@@ -116,10 +119,11 @@ create title =
 patch : Todo -> Cmd Msg
 patch { id, title, completed } =
     let
-      task = Utils.patchJson todoDecoder (singleUrl id)
-        <| todoEncoder title completed
+        task =
+            Utils.patchJson todoDecoder (singleUrl id) <|
+                todoEncoder title completed
     in
-      Task.attempt PatchDone task
+    Task.attempt PatchDone task
 
 
 

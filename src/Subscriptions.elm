@@ -1,7 +1,8 @@
-module Subscriptions exposing (..)
+module Subscriptions exposing (subscriptions)
 
-import Models exposing (Model)
 import Messages exposing (Msg)
+import Models exposing (Model)
+
 
 
 -- these are our "root" subscriptions,

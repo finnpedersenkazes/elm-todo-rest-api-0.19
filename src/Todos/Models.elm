@@ -1,4 +1,4 @@
-module Todos.Models exposing (..)
+module Todos.Models exposing (Todo, TodoEditView(..))
 
 -- this is the model for a single Todo.
 -- note that the root Model has little knowledge on what a Todo "is";

@@ -1,7 +1,8 @@
-module Todos.Messages exposing (..)
+module Todos.Messages exposing (Msg(..))
 
 import Http
 import Todos.Models exposing (Todo, TodoEditView)
+
 
 
 -- messages relevant to todos
